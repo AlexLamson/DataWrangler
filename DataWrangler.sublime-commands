@@ -1,0 +1,3 @@
+[
+    { "caption": "Data Wrangler: Generate word frequencies in new tab", "command": "word_freq" }
+]
