@@ -5,6 +5,9 @@ Sublime text package to make quick and dirty data mining easier
 While cleaning data from a large survey, I wanted to ask questions about the data so I could clean it better.
 For example, many people would type what city they were from, but some would misspell it. By looking at the most frequent responses, the incorrectly spelled answers could be merged into the correct spellings.
 
+## Usage
+Just open the command palette (ctrl+shift+P on Windows) and type the name of the function you want
+
 ## Functions
  * Word frequency - Counts the number of times each line occurs, then summarizes that information in a new tab
 
