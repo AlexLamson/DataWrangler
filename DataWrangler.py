@@ -11,12 +11,17 @@ Potential future functions to add:
 
 
 '''
-Potential future improvements to word freq command:
+Description
+-----------
+Count the number of times each line occurs, then display that info in a new tab
+
+Potential improvements
+----------------------
  * ignore case when merging lines
  * Make first line of input document be title of output summary
     * maybe like only if the first line only occurs once do this automatically
 '''
-class WordFreqCommand(sublime_plugin.TextCommand):
+class LineFreqCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         sublime.status_message('Word Freq: Counting unique lines')
 
@@ -65,6 +70,49 @@ class WordFreqCommand(sublime_plugin.TextCommand):
 
         new_everything_string = header_string + '\n'.join(count_strings) + '\n'
 
+        # write frequencies to new tab
+        new_view = sublime.active_window().new_file()
+        new_view.insert(edit, 0, new_everything_string)
+
+
+'''
+Description
+-----------
+Assuming your data is in the format:
+AAA
+    BBB
+    CCC
+
+Pair each sub-item with it's parent:
+AAA    BBB
+AAA    CCC
+'''
+class FlattenListOfListsCommand(sublime_plugin.TextCommand):
+    def run(self, edit):
+        sublime.status_message('Data Wrangler: Flattening list column')
+
+        # collect all the lines from the documents as a list of strings
+        self.view.run_command('select_all')
+        everything_region = self.view.sel()[0]
+        everything_string = self.view.substr(everything_region)
+        self.view.sel().clear()
+        lines = everything_string.split('\n')
+
+        # discard the last line if it is blank
+        if lines[-1] == '':
+            del lines[-1]
+
+        # flatten the list of lists
+        new_lines = list()
+        current_heading = ""
+        for i, line in enumerate(lines):
+            if not line.startswith('\t'):
+                current_heading = line
+            else:
+                new_lines.append(current_heading + line)
+
+        new_everything_string = "\n".join(new_lines) + "\n"
+
         # open new file
         new_view = sublime.active_window().new_file()
         # insert selected text into the new file
@@ -72,3 +120,4 @@ class WordFreqCommand(sublime_plugin.TextCommand):
 
         # self.view.replace(edit, everything_region, new_everything_string)
         # self.view.sel().clear()
+        # self.view.run_command("go_to_line", {'line':'0'})

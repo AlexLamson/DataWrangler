@@ -1,3 +1,10 @@
 [
-    { "caption": "Data Wrangler: Generate word frequencies in new tab", "command": "word_freq" }
+    {
+        "command": "line_freq",
+        "caption": "Data Wrangler: Write line frequencies to a new tab"
+    },
+    {
+        "command": "flatten_list_of_lists",
+        "caption": "Data Wrangler: Flatten list of lists"
+    }
 ]
