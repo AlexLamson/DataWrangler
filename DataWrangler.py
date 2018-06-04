@@ -1,12 +1,11 @@
 import sublime
 import sublime_plugin
 from collections import defaultdict
-from math import log10, floor
+from math import log10, floor, ceil
 
 '''
 Potential future functions to add:
  * use fancy NLP to extract words (more clever than str.split(' '), get rid of commas and stuff)
-
 '''
 
 
@@ -41,34 +40,40 @@ class LineFreqCommand(sublime_plugin.TextCommand):
         count_tuples = ((counts[word], word) for word in counts)
         count_tuples = sorted(count_tuples, key=lambda x: (-x[0], x[1]))
 
+        # make all the line counts line up
         max_count_characters = floor(log10( max((counts[x] for x in counts)) ))+1
 
-        '''
-        Finish later
-        (the idea is to make the percentages adaptively longer if they are very small)
-        '''
-        # smallest_percent = min((counts[x]/total_num_words for x in counts))
-        # if smallest_percent >= 1.0:
-        #     max_percent_characters = pass
-        # max_percent_characters = floor(log10( smallest_percent ))+1
+        # add more decimal places to the percentages as needed
+        smallest_percent = min((counts[x]/total_num_words for x in counts))
+        num_decimal_places = 0
+        if -(log10(smallest_percent)+2) > 0:
+            num_decimal_places = ceil(-(log10(smallest_percent)+2))
 
-        # count_strings = [('{: >2.2%}  {: >'+str(max_count_characters)+'d}  {}').format(100.0*count/total_num_words, count, word) for (count, word) in count_tuples]
-        count_strings = [('{: >5.1%}  {: >'+str(max_count_characters)+'d}  {}').format(count/total_num_words, count, word) for (count, word) in count_tuples]
+        # initialize array to hold output lines
+        out_strings = []
 
         # add a title to the beginning
         header_string = 'Frequencies of unique lines'
-        header_string = header_string + '\n' + '='*len(header_string) + '\n'
+        out_strings.append(header_string)
+        out_strings.append('='*len(header_string))
+
+        # format each lines percentage, count, and line string
+        percentage_format_specifier = '{: >' + str(num_decimal_places+4) + '.' + str(num_decimal_places) + '%}'
+        count_format_specifier = '{: >' + str(max_count_characters) + 'd}'
+        for (count, word) in count_tuples:
+            percentage = count/total_num_words
+            count_string = (percentage_format_specifier+'  '+count_format_specifier+'  {}').format(percentage, count, word)
+            out_strings.append(count_string)
 
         # add in a grand total at the end
-        total_count_string = '{}  {}'.format(total_num_words, 'Total')
-        count_strings.append('='*len(total_count_string))
-        count_strings.append(total_count_string)
+        out_strings.append('='*len(header_string))
+        out_strings.append(str(total_num_words)+'  Total')
 
-        new_everything_string = header_string + '\n'.join(count_strings) + '\n'
+        output_string = '\n'.join(out_strings) + '\n'
 
         # write frequencies to new tab
         new_view = sublime.active_window().new_file()
-        new_view.insert(edit, 0, new_everything_string)
+        new_view.insert(edit, 0, output_string)
 
 
 '''
