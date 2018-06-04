@@ -48,6 +48,9 @@ class LineFreqCommand(sublime_plugin.TextCommand):
         num_decimal_places = 0
         if -(log10(smallest_percent)+2) > 0:
             num_decimal_places = ceil(-(log10(smallest_percent)+2))
+            num_leading_chars_in_percentage = num_decimal_places+4
+        else:
+            num_leading_chars_in_percentage = 3  # special case when all percentages are whole numbers
 
         # initialize array to hold output lines
         out_strings = []
@@ -58,7 +61,7 @@ class LineFreqCommand(sublime_plugin.TextCommand):
         out_strings.append('='*len(header_string))
 
         # format each lines percentage, count, and line string
-        percentage_format_specifier = '{: >' + str(num_decimal_places+4) + '.' + str(num_decimal_places) + '%}'
+        percentage_format_specifier = '{: >' + str(num_leading_chars_in_percentage) + '.' + str(num_decimal_places) + '%}'
         count_format_specifier = '{: >' + str(max_count_characters) + 'd}'
         for (count, word) in count_tuples:
             percentage = count/total_num_words
