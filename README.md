@@ -1,4 +1,4 @@
-# DataWrangler - A Sublime Text package
+# DataWrangler - Clean & Analyze Data in Sublime Text
 Sublime text package to make quick and dirty data mining easier
 
 ## Motivation
