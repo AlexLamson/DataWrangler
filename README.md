@@ -1,5 +1,5 @@
-# DataWrangler - Clean & Analyze Data in Sublime Text
-Sublime text package to make quick and dirty data mining easier
+# DataWrangler - Sublime Plugin
+Clean and analyze text data more easily
 
 ## Motivation
 While cleaning data from a large survey, I wanted to ask questions about the data so I could clean it better.
