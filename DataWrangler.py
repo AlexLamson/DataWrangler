@@ -23,18 +23,13 @@ Potential improvements
 '''
 class LineFreqCommand(sublime_plugin.TextCommand):
     def run(self, edit):
-        sublime.status_message('Word Freq: Counting unique lines')
+        sublime.status_message('Data Wrangler: Counting line frequencies')
 
-        # collect all the lines from the documents as a list of strings
-        self.view.run_command('select_all')
-        everything_region = self.view.sel()[0]
-        everything_string = self.view.substr(everything_region)
-        self.view.sel().clear()
-        lines = everything_string.split('\n')
-
-        # discard the last line if it is blank
-        if lines[-1] == '':
-            del lines[-1]
+        # collect the line strings
+        r = sublime.Region(0, self.view.size())
+        line_regions = self.view.lines(r)
+        lines = (self.view.substr(x) for x in line_regions)
+        lines = [x for x in lines if x != '']
 
         # count the unique lines
         counts = defaultdict(int)
@@ -52,19 +47,20 @@ class LineFreqCommand(sublime_plugin.TextCommand):
         Finish later
         (the idea is to make the percentages adaptively longer if they are very small)
         '''
-        # smallest_percent = min((100.0*counts[x]/total_num_words for x in counts))
+        # smallest_percent = min((counts[x]/total_num_words for x in counts))
         # if smallest_percent >= 1.0:
         #     max_percent_characters = pass
         # max_percent_characters = floor(log10( smallest_percent ))+1
 
-        count_strings = [('{: >4.1f}%  {: >'+str(max_count_characters)+'d}  {}').format(100.0*count/total_num_words, count, word) for (count, word) in count_tuples]
+        # count_strings = [('{: >2.2%}  {: >'+str(max_count_characters)+'d}  {}').format(100.0*count/total_num_words, count, word) for (count, word) in count_tuples]
+        count_strings = [('{: >5.1%}  {: >'+str(max_count_characters)+'d}  {}').format(count/total_num_words, count, word) for (count, word) in count_tuples]
 
         # add a title to the beginning
         header_string = 'Frequencies of unique lines'
         header_string = header_string + '\n' + '='*len(header_string) + '\n'
 
         # add in a grand total at the end
-        total_count_string = '{}  {}'.format(total_num_words, 'Total unique lines')
+        total_count_string = '{}  {}'.format(total_num_words, 'Total')
         count_strings.append('='*len(total_count_string))
         count_strings.append(total_count_string)
 
