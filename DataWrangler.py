@@ -4,6 +4,30 @@ from collections import defaultdict
 from math import log10, floor, ceil
 
 
+def detect_num_columns(self, sep=None):
+    if sep is None:
+        sep = detect_separations(self)
+
+    # collect the line strings
+    r = sublime.Region(0, self.view.size())
+    first_line_region = self.view.lines(r)[0]
+    first_line = self.view.substr(first_line_region)
+    return len(first_line.split(sep))
+
+
+def detect_separations(self):
+    # remember that you only need to read the first couple lines to first this out
+    # realistically, you only need one line
+
+    # # collect the line strings
+    # r = sublime.Region(0, self.view.size())
+    # line_regions = self.view.lines(r)
+    # lines = (self.view.substr(x) for x in line_regions)
+    # lines = [x for x in lines if x != '']
+
+    # this is a temp solution for now
+    return "\t"
+
 
 '''
 Description
