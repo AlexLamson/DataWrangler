@@ -1,7 +1,7 @@
 [
     {
         "command": "line_freq",
-        "caption": "Data Wrangler: Write line frequencies to a new tab"
+        "caption": "Data Wrangler: Write word/line frequencies to a new tab"
     },
     {
         "command": "flatten_list_of_lists",
