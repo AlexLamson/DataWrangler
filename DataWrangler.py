@@ -16,17 +16,18 @@ def detect_num_columns(self, sep=None):
 
 
 def detect_separations(self):
-    # remember that you only need to read the first couple lines to first this out
-    # realistically, you only need one line
+    # read and split the first line
+    r = sublime.Region(0, self.view.size())
+    first_line_region = self.view.lines(r)[0]
+    first_line = self.view.substr(first_line_region)
 
-    # # collect the line strings
-    # r = sublime.Region(0, self.view.size())
-    # line_regions = self.view.lines(r)
-    # lines = (self.view.substr(x) for x in line_regions)
-    # lines = [x for x in lines if x != '']
-
-    # this is a temp solution for now
-    return "\t"
+    # hacky solution that should be improved in the future
+    if '\t' in first_line:
+        return '\t'
+    elif ',' in first_line:
+        return ','
+    else:
+        ' '
 
 
 '''
