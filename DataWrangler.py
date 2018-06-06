@@ -8,7 +8,7 @@ def detect_num_columns(self, sep=None):
     if sep is None:
         sep = detect_separations(self)
 
-    # collect the line strings
+    # read and split the first line
     r = sublime.Region(0, self.view.size())
     first_line_region = self.view.lines(r)[0]
     first_line = self.view.substr(first_line_region)
