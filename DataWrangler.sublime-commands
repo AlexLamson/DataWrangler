@@ -6,5 +6,9 @@
     {
         "command": "flatten_list_of_lists",
         "caption": "Data Wrangler: Flatten list of lists"
+    },
+    {
+        "command": "align_columns",
+        "caption": "Data Wrangler: Resize/align all columns so there's no vertical overlap"
     }
 ]

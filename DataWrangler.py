@@ -139,3 +139,49 @@ class FlattenListOfListsCommand(sublime_plugin.TextCommand):
         # self.view.replace(edit, everything_region, new_everything_string)
         # self.view.sel().clear()
         # self.view.run_command("go_to_line", {'line':'0'})
+
+
+'''
+Description
+-----------
+Before:
+aaaa bb ccc
+dd eeeeee ff
+
+After:
+aaaa bb     ccc
+dd   eeeeee ff
+'''
+class AlignColumnsCommand(sublime_plugin.TextCommand):
+    def run(self, edit):
+        sublime.status_message('Data Wrangler: Aligning columns')
+
+        # collect the line strings
+        r = sublime.Region(0, self.view.size())
+        line_regions = self.view.lines(r)
+        lines = (self.view.substr(x) for x in line_regions)
+        lines = [x for x in lines if x != '']
+
+        # compute the max width of each column
+        sep = detect_separations(self)
+        num_columns = detect_num_columns(self, sep)
+        column_widths = [0]*num_columns
+        for line in lines:
+            split_line = line.split(sep)
+            for i, cell_string in enumerate(split_line):
+                column_widths[i] = max(len(cell_string), column_widths[i])
+
+        # re-format all the columns
+        format_string = "  ".join(("{: >"+str(width)+"}" for width in column_widths))
+        out_strings = []
+        for line in lines:
+            cells = line.split(sep)
+            resized_line = format_string.format(*cells)
+            out_strings.append(resized_line)
+
+        # initialize array to hold output lines
+        output_string = '\n'.join(out_strings) + '\n'
+
+        # write frequencies to new tab
+        new_view = sublime.active_window().new_file()
+        new_view.insert(edit, 0, output_string)
