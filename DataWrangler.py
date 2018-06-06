@@ -3,22 +3,12 @@ import sublime_plugin
 from collections import defaultdict
 from math import log10, floor, ceil
 
-'''
-Potential future functions to add:
- * use fancy NLP to extract words (more clever than str.split(' '), get rid of commas and stuff)
-'''
 
 
 '''
 Description
 -----------
 Count the number of times each line occurs, then display that info in a new tab
-
-Potential improvements
-----------------------
- * ignore case when merging lines
- * Make first line of input document be title of output summary
-    * maybe like only if the first line only occurs once do this automatically
 '''
 class LineFreqCommand(sublime_plugin.TextCommand):
     def run(self, edit):
@@ -82,12 +72,12 @@ class LineFreqCommand(sublime_plugin.TextCommand):
 '''
 Description
 -----------
-Assuming your data is in the format:
+Before:
 AAA
     BBB
     CCC
 
-Pair each sub-item with it's parent:
+After:
 AAA    BBB
 AAA    CCC
 '''
