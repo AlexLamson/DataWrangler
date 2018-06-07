@@ -4,6 +4,12 @@ from collections import defaultdict
 from math import log10, floor, ceil
 
 
+# pass in a variable name and an optional default value
+# to get what that value is set to in settings
+def setttings(name, default=None):
+    return sublime.load_settings("DataWrangler.sublime-settings").get(name, default)
+
+
 def detect_num_columns(self, sep=None):
     if sep is None:
         sep = detect_separations(self)
@@ -39,6 +45,9 @@ class LineFreqCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         sublime.status_message('Data Wrangler: Counting line frequencies')
 
+        # collect settings
+        ignore_case_when_merging_lines = setttings("ignore_case_when_merging_lines", False)
+
         # collect the line strings
         r = sublime.Region(0, self.view.size())
         line_regions = self.view.lines(r)
@@ -48,6 +57,8 @@ class LineFreqCommand(sublime_plugin.TextCommand):
         # count the unique lines
         counts = defaultdict(int)
         for line in lines:
+            if ignore_case_when_merging_lines:
+                line = line.lower()
             counts[line] += 1
         total_num_words = sum((counts[x] for x in counts))
 
