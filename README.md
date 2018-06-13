@@ -18,7 +18,7 @@ To run a command, open the command palette (ctrl+shift+P on Windows) and type th
 If a command expects data to be formatted in rows and columns of data, tabs are the preferred separator (it also tries to be clever if you are using another separator, ex. commas). This was chosen because it makes it very compatible with copy-pasting from Google Sheets and Excel spreadsheets.
 
 
-## Functions
+## Commands
 All commands are non-destructive, and the results will appear in a new tab.
  * Line/word frequency
  * Flatten a list of lists
