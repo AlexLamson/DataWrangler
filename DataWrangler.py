@@ -36,7 +36,7 @@ def detect_separations(self, first_line=None):
     else:
         ' '
 
-        
+
 def detect_col_widths(self, sep=None, num_columns=None, lines=None):
     if sep is None:
         sep = detect_separations(self)
@@ -200,7 +200,7 @@ class AlignColumnsCommand(sublime_plugin.TextCommand):
         # compute the max width of each column
         sep = detect_separations(self)
         num_columns = detect_num_columns(self, sep)
-        column_widths = detect_col_widths(sep, num_columns)
+        column_widths = detect_col_widths(self, sep, num_columns)
 
         # re-format all the columns
         format_string = "  ".join(("{: >"+str(width)+"}" for width in column_widths))
