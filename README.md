@@ -17,10 +17,3 @@ All commands are non-destructive, and the results will appear in a new tab.
  * Flatten a list of lists
  * Vertically align all columns
  * Delete each column that contains a cursor
-
-## Functions
-All commands are non-destructive, and the results will appear in a new tab.
- * Line/word frequency
- * Flatten a list of lists
- * Vertically align all columns
- * Delete each column that contains a cursor
