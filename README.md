@@ -12,4 +12,15 @@ Install via [Package control](https://packagecontrol.io/installation) by searchi
 Just open the command palette (ctrl+shift+P on Windows) and type the name of the function you want
 
 ## Functions
- * Word frequency - Counts the number of times each line occurs, then summarizes that information in a new tab
+All commands are non-destructive, and the results will appear in a new tab.
+ * Line/word frequency
+ * Flatten a list of lists
+ * Vertically align all columns
+ * Delete each column that contains a cursor
+
+## Functions
+All commands are non-destructive, and the results will appear in a new tab.
+ * Line/word frequency
+ * Flatten a list of lists
+ * Vertically align all columns
+ * Delete each column that contains a cursor
