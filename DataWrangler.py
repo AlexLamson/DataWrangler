@@ -216,3 +216,48 @@ class AlignColumnsCommand(sublime_plugin.TextCommand):
         # write frequencies to new tab
         new_view = sublime.active_window().new_file()
         new_view.insert(edit, 0, output_string)
+
+
+'''
+Description
+-----------
+Delete every column that has a cursor in it
+'''
+class DeleteColumnsCommand(sublime_plugin.TextCommand):
+    def run(self, edit):
+        sublime.status_message('Data Wrangler: Deleting columns')
+
+        # indices of data columns that will be removed
+        data_columns_to_delete = set()
+
+        # for each cursor, find which data column that cursor is in
+        for cursor_region in self.view.sel():
+            line_region = self.view.line(cursor_region.a)
+            tabs_region = sublime.Region(line_region.a, cursor_region.a)
+            num_tabs_before_cursor = self.view.substr(tabs_region).count('\t')
+
+            # the data column index is equal to the number of tabs before the cursor
+            data_column = num_tabs_before_cursor
+            data_columns_to_delete.add( data_column )
+
+        # collect the line strings
+        r = sublime.Region(0, self.view.size())
+        line_regions = self.view.lines(r)
+        lines = (self.view.substr(x) for x in line_regions)
+        lines = [x for x in lines if x != '']
+
+        # delete unwanted columns
+        sep = detect_separations(self)
+        out_strings = []
+        for line in lines:
+            columns = line.split(sep)
+            filtered_columns = [y for (x,y) in enumerate(columns) if x not in data_columns_to_delete]
+            filtered_line = sep.join(filtered_columns)
+            out_strings.append(filtered_line)
+
+        # initialize array to hold output lines
+        output_string = '\n'.join(out_strings) + '\n'
+
+        # write frequencies to new tab
+        new_view = sublime.active_window().new_file()
+        new_view.insert(edit, 0, output_string)

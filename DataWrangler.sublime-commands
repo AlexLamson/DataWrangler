@@ -10,5 +10,9 @@
     {
         "command": "align_columns",
         "caption": "Data Wrangler: Resize/align all columns so there's no vertical overlap"
+    },
+    {
+        "command": "delete_columns",
+        "caption": "Data Wrangler: Delete all columns that contain cursor"
     }
 ]
