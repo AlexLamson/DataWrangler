@@ -6,7 +6,7 @@ from math import log10, floor, ceil
 
 # pass in a variable name and an optional default value
 # to get what that value is set to in settings
-def setttings(name, default=None):
+def settings(name, default=None):
     return sublime.load_settings("DataWrangler.sublime-settings").get(name, default)
 
 
@@ -46,7 +46,7 @@ class LineFreqCommand(sublime_plugin.TextCommand):
         sublime.status_message('Data Wrangler: Counting line frequencies')
 
         # collect settings
-        ignore_case_when_merging_lines = setttings("ignore_case_when_merging_lines", False)
+        ignore_case_when_merging_lines = settings("ignore_case_when_merging_lines", False)
 
         # collect the line strings
         r = sublime.Region(0, self.view.size())
