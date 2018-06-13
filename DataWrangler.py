@@ -21,11 +21,12 @@ def detect_num_columns(self, sep=None):
     return len(first_line.split(sep))
 
 
-def detect_separations(self):
-    # read and split the first line
-    r = sublime.Region(0, self.view.size())
-    first_line_region = self.view.lines(r)[0]
-    first_line = self.view.substr(first_line_region)
+def detect_separations(self, first_line=None):
+    if first_line is None:
+        # read and split the first line
+        r = sublime.Region(0, self.view.size())
+        first_line_region = self.view.lines(r)[0]
+        first_line = self.view.substr(first_line_region)
 
     # hacky solution that should be improved in the future
     if '\t' in first_line:
@@ -34,6 +35,28 @@ def detect_separations(self):
         return ','
     else:
         ' '
+
+        
+def detect_col_widths(self, sep=None, num_columns=None, lines=None):
+    if sep is None:
+        sep = detect_separations(self)
+    if num_columns is None:
+        num_columns = detect_num_columns(self, sep)
+
+    if lines is None:
+        # collect the line strings
+        r = sublime.Region(0, self.view.size())
+        line_regions = self.view.lines(r)
+        lines = (self.view.substr(x) for x in line_regions)
+        lines = [x for x in lines if x != '']
+
+    column_widths = [0]*num_columns
+    for line in lines:
+        split_line = line.split(sep)
+        for i, cell_string in enumerate(split_line):
+            column_widths[i] = max(len(cell_string), column_widths[i])
+
+    return column_widths
 
 
 '''
@@ -177,11 +200,7 @@ class AlignColumnsCommand(sublime_plugin.TextCommand):
         # compute the max width of each column
         sep = detect_separations(self)
         num_columns = detect_num_columns(self, sep)
-        column_widths = [0]*num_columns
-        for line in lines:
-            split_line = line.split(sep)
-            for i, cell_string in enumerate(split_line):
-                column_widths[i] = max(len(cell_string), column_widths[i])
+        column_widths = detect_col_widths(sep, num_columns)
 
         # re-format all the columns
         format_string = "  ".join(("{: >"+str(width)+"}" for width in column_widths))
