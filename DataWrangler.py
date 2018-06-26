@@ -31,6 +31,8 @@ def detect_separations(self, first_line=None):
     # hacky solution that should be improved in the future
     if '\t' in first_line:
         return '\t'
+    elif ', ' in first_line:
+        return ', '
     elif ',' in first_line:
         return ','
     else:
