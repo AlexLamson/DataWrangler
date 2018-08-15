@@ -1,7 +1,7 @@
 # DataWrangler - Sublime Plugin
 Clean and analyze text data more easily
 
-!["Screenshot"](/screenshots/demo.gif "Screenshot")
+!["Screenshot"](https://raw.github.com/AlexLamson/DataWrangler/master/screenshots/demo.gif "Screenshot")
 
 
 ## Motivation
