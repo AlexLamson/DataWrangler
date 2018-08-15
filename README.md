@@ -1,6 +1,8 @@
 # DataWrangler - Sublime Plugin
 Clean and analyze text data more easily
 
+!["Screenshot"](/screenshots/demo.gif "Screenshot")
+
 
 ## Motivation
 While cleaning data from a large survey, I wanted to ask questions about the data so I could clean it better.
