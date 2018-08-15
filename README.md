@@ -6,7 +6,7 @@ Clean and analyze text data more easily
 
 ## Motivation
 While cleaning data from a large survey, I wanted to ask questions about the data so I could clean it better.
-For example, many people would type what city they were from, but some would misspell it. By looking at the most frequent responses, the incorrectly spelled answers could be merged into the correct spellings.
+For example, many people would type what city they were from, but some would misspell it. By looking at the most common responses, I could quickly find the mispelled words and fix them.
 
 ## Installation
 Install via Package Control by searching for `DataWrangler`.
