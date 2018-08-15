@@ -22,6 +22,7 @@ If a command expects data to be formatted in rows and columns of data, tabs are 
 
 ## Commands
 All commands are non-destructive, and the results will appear in a new tab.
+
 - Line/word frequency
 - Flatten a list of lists
 - Vertically align all columns
