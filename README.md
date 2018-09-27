@@ -2,6 +2,7 @@
 Clean and analyze text data more easily
 
 !["Screenshot"](https://raw.github.com/AlexLamson/DataWrangler/master/screenshots/demo.gif "Screenshot")
+*I used [this](https://www.screentogif.com/) to capture the screen*
 
 
 ## Motivation
