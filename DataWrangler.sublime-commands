@@ -14,5 +14,9 @@
     {
         "command": "delete_columns",
         "caption": "Data Wrangler: Delete all columns that contain cursor"
+    },
+    {
+        "command": "word_split",
+        "caption": "Data Wrangler: Split lines into words"
     }
 ]

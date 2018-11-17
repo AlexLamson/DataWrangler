@@ -263,3 +263,33 @@ class DeleteColumnsCommand(sublime_plugin.TextCommand):
         # write frequencies to new tab
         new_view = sublime.active_window().new_file()
         new_view.insert(edit, 0, output_string)
+
+
+'''
+Description
+-----------
+Separate each word onto its own line
+'''
+class WordSplitCommand(sublime_plugin.TextCommand):
+    def run(self, edit):
+        sublime.status_message('Data Wrangler: Counting line frequencies')
+
+        # collect the line strings
+        r = sublime.Region(0, self.view.size())
+        line_regions = self.view.lines(r)
+        lines = (self.view.substr(x) for x in line_regions)
+        lines = [x for x in lines if x != '']
+
+        # initialize array to hold output lines
+        out_strings = []
+
+        for line in lines:
+            re.split(r"\W+", line)
+            for word in line.split():
+                out_strings += [word]
+
+        output_string = '\n'.join(out_strings) + '\n'
+
+        # write frequencies to new tab
+        new_view = sublime.active_window().new_file()
+        new_view.insert(edit, 0, output_string)
