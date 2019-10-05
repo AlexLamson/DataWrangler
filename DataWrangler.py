@@ -182,6 +182,56 @@ class FlattenListOfListsCommand(sublime_plugin.TextCommand):
 Description
 -----------
 Before:
+AAA    BBB
+AAA    CCC
+
+After:
+AAA
+    BBB
+    CCC
+'''
+class GroupListOfListsCommand(sublime_plugin.TextCommand):
+    def run(self, edit):
+        sublime.status_message('Data Wrangler: Grouping list column')
+
+        # collect all the lines from the documents as a list of strings
+        self.view.run_command('select_all')
+        everything_region = self.view.sel()[0]
+        everything_string = self.view.substr(everything_region)
+        self.view.sel().clear()
+        lines = everything_string.split('\n')
+
+        # discard the last line if it is blank
+        if lines[-1] == '':
+            del lines[-1]
+
+        # flatten the list of lists
+        new_lines = list()
+        current_heading = ""
+        for i, line in enumerate(lines):
+            heading, subheading = line.split('\t')
+            if heading == current_heading:
+                new_lines.append('\t'+subheading)
+            else:
+                current_heading = heading
+                new_lines.append(current_heading)
+
+        new_everything_string = "\n".join(new_lines) + "\n"
+
+        # open new file
+        new_view = sublime.active_window().new_file()
+        # insert selected text into the new file
+        new_view.insert(edit, 0, new_everything_string)
+
+        # self.view.replace(edit, everything_region, new_everything_string)
+        # self.view.sel().clear()
+        # self.view.run_command("go_to_line", {'line':'0'})
+
+
+'''
+Description
+-----------
+Before:
 aaaa bb ccc
 dd eeeeee ff
 
