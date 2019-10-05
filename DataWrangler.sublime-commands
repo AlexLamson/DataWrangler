@@ -26,5 +26,9 @@
     {
         "command": "word_split",
         "caption": "Data Wrangler: Split lines into words"
+    },
+    {
+        "command": "remove_stopwords",
+        "caption": "Data Wrangler: Remove stopwords"
     }
 ]

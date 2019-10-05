@@ -136,6 +136,34 @@ class LineFreqCommand(sublime_plugin.TextCommand):
 '''
 Description
 -----------
+Remove english stopwords from lines. Assumes that each line is a single word.
+'''
+class RemoveStopwordsCommand(sublime_plugin.TextCommand):
+    def run(self, edit):
+        sublime.status_message('Data Wrangler: Removing stopwords')
+
+        # collect the line strings
+        r = sublime.Region(0, self.view.size())
+        line_regions = self.view.lines(r)
+        lines = (self.view.substr(x) for x in line_regions)
+        lines = [x for x in lines if x != '']
+
+        # load in list of stopwords
+        stopwords = settings("stopwords", "").split()
+
+        # filter out stopwords
+        lines = [x for x in lines if x.lower() not in stopwords]
+
+        output_string = '\n'.join(lines)
+
+        # write frequencies to new tab
+        new_view = sublime.active_window().new_file()
+        new_view.insert(edit, 0, output_string)
+
+
+'''
+Description
+-----------
 Before:
 AAA
     BBB
