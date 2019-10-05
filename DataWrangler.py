@@ -2,6 +2,9 @@ import sublime
 import sublime_plugin
 from collections import defaultdict
 from math import log10, floor, ceil
+import threading
+from subprocess import check_output
+import re
 
 
 # pass in a variable name and an optional default value
@@ -161,7 +164,7 @@ class FlattenListOfListsCommand(sublime_plugin.TextCommand):
         new_lines = list()
         current_heading = ""
         for i, line in enumerate(lines):
-            if not line.startswith('\t'):
+            if not (line.startswith('\t') or line.startswith(' ')):
                 current_heading = line
             else:
                 new_lines.append(current_heading + line)
