@@ -164,6 +164,30 @@ class RemoveStopwordsCommand(sublime_plugin.TextCommand):
 '''
 Description
 -----------
+Remove lines that contain no meaningful content (spaces, tabs, commas).
+'''
+class RemoveSeparatorOnlyRowsCommand(sublime_plugin.TextCommand):
+    def run(self, edit):
+        sublime.status_message('Data Wrangler: Removing stopwords')
+
+        # collect the line strings
+        r = sublime.Region(0, self.view.size())
+        line_regions = self.view.lines(r)
+        lines = [self.view.substr(x) for x in line_regions]
+
+        # filter out lines that only contain separators
+        is_useful_line = re.compile(r'[^\s\t,\.]')
+        lines = list(filter(is_useful_line.search, lines))
+        output_string = '\n'.join(lines)
+
+        # write frequencies to new tab
+        new_view = sublime.active_window().new_file()
+        new_view.insert(edit, 0, output_string)
+
+
+'''
+Description
+-----------
 Before:
 AAA
     BBB

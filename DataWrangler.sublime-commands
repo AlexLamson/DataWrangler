@@ -30,5 +30,9 @@
     {
         "command": "remove_stopwords",
         "caption": "Data Wrangler: Remove stopwords"
+    },
+    {
+        "command": "remove_separator_only_rows",
+        "caption": "Data Wrangler: Remove lines that only contain separators"
     }
 ]
