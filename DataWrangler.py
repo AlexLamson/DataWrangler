@@ -5,6 +5,7 @@ from math import log10, floor, ceil
 import threading
 from subprocess import check_output
 import re
+import itertools
 
 
 # pass in a variable name and an optional default value
@@ -178,6 +179,30 @@ class RemoveSeparatorOnlyRowsCommand(sublime_plugin.TextCommand):
         # filter out lines that only contain separators
         is_useful_line = re.compile(r'[^\s\t,\.]')
         lines = list(filter(is_useful_line.search, lines))
+        output_string = '\n'.join(lines)
+
+        # write frequencies to new tab
+        new_view = sublime.active_window().new_file()
+        new_view.insert(edit, 0, output_string)
+
+
+'''
+Description
+-----------
+List all pairs of lines.
+'''
+class AllPairsCommand(sublime_plugin.TextCommand):
+    def run(self, edit):
+        sublime.status_message('Data Wrangler: Removing stopwords')
+
+        # collect the line strings
+        r = sublime.Region(0, self.view.size())
+        line_regions = self.view.lines(r)
+        lines = [self.view.substr(x) for x in line_regions]
+        lines = [x for x in lines if x != '']
+
+        # generate all pairs of lines
+        lines = [x+' ~~~ '+y for (x, y) in itertools.combinations(lines, 2)]
         output_string = '\n'.join(lines)
 
         # write frequencies to new tab

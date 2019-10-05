@@ -34,5 +34,9 @@
     {
         "command": "remove_separator_only_rows",
         "caption": "Data Wrangler: Remove lines that only contain separators"
+    },
+    {
+        "command": "all_pairs",
+        "caption": "Data Wrangler: Generate all pairs for lines"
     }
 ]
